@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Shop</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="header" id="header">
+    <div class="logo" contenteditable="true">CricketPro</div>
+    <nav class="navbar">
+      <a href="index.html" contenteditable="true">Home</a>
+      <a href="product.html" contenteditable="true">Products</a>
+      <a href="category.html" contenteditable="true">Categories</a>
+      <a href="contact.html" contenteditable="true">Contact</a>
+      <a href="cart.html" contenteditable="true">Cart</a>
+    </nav>
+    <button class="remove-btn" onclick="removeComponent('header')">❌</button>
+  </header>
+
+  <!-- Contact Section -->
+  <section class="contact">
+    <h1 contenteditable="true">Contact Us</h1>
+    <p contenteditable="true">Have questions? Reach out to us!</p>
+
+    <div class="contact-container">
+      <!-- Contact Form -->
+      <form id="contact-form">
+        <div class="form-group" id="form-group">
+          <label for="name" contenteditable="true">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your Name" required>
+          <button class="remove-btn" onclick="removeComponent('form-group')">❌</button>
+        </div>
+        <div class="form-group" id="form-group1">
+          <label for="email" contenteditable="true">Email</label>
+          <input type="email" id="email" name="email" placeholder="Your Email" required>
+          <button class="remove-btn" onclick="removeComponent('form-group1')">❌</button>
+        </div>
+        <div class="form-group" id="form-group2">
+          <label for="message" contenteditable="true">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+          <button class="remove-btn" onclick="removeComponent('form-group2')">❌</button>
+        </div>
+        <button type="submit" class="btn">Submit</button>
+      </form>
+
+      <!-- Contact Info -->
+      <div class="contact-info">
+        <h3 contenteditable="true">Get in Touch</h3>
+        <p contenteditable="true"><strong>Phone:</strong> +91 98765 43210</p>
+        <p contenteditable="true"><strong>Email:</strong> support@cricketpro.com</p>
+        <p contenteditable="true"><strong>Address:</strong> 123 Cricket Street, Sports City, India</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer" id="footer">
+    <p contenteditable="true">© 2024 CricketPro. All rights reserved.</p>
+    <button class="remove-btn" onclick="removeComponent('footer')">❌</button>
+  </footer>
+
+  <script>
+    function removeComponent(id) {
+      var element = document.getElementById(id);
+      if (element) {
+        element.remove();
+      }
+    }
+  </script>
+
+  <script src="contact.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Colorful Stable Bubbles -->
+    <div class="bubble bubble-top-left"></div>
+    <div class="bubble bubble-top-right"></div>
+    <div class="bubble bubble-bottom-left"></div>
+    <div class="bubble bubble-bottom-right"></div>
+
+    <div class="container">
+        <div class="login-box">
+            <h2>Welcome back</h2>
+            <p>Continue where you left off</p>
+            
+            <form id="loginForm" action="login.php" method="POST">
+                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit" class="btn">Login</button>
+            </form>
+
+            <p class="forgot-password-link">
+                <a href="forgot_password.html">Forgot your password?</a>
+            </p>
+
+            <p class="signup-link">Don't have an account? <a href="signup.html">Sign up</a></p>
+        </div>
+        <div class="illustration">
+            <img src="../images/log.png" alt="Login Illustration">
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <link rel="stylesheet" href="signup.css">
+    <script>
+        // Real-time password validation
+        function validatePassword() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorMessages = [];
+
+            // Check password length
+            if (password.length < 6) {
+                errorMessages.push("Password must be greater than 6 characters.");
+            }
+
+            // Check if password contains at least one letter
+            if (!/[a-zA-Z]/.test(password)) {
+                errorMessages.push("Password must contain at least one letter.");
+            }
+
+            // Check if password contains at least one symbol
+            if (!/[\W_]/.test(password)) {
+                errorMessages.push("Password must contain at least one symbol.");
+            }
+
+            // Display errors or success
+            const errorContainer = document.getElementById('passwordErrors');
+            if (errorMessages.length > 0) {
+                errorContainer.innerHTML = errorMessages.join("<br>");
+                document.getElementById('signupBtn').disabled = true; // Disable signup button
+            } else {
+                errorContainer.innerHTML = "";
+                document.getElementById('signupBtn').disabled = false; // Enable signup button
+            }
+        }
+
+        // Check if password matches confirm password in real-time
+        function matchPasswords() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('passwordMismatch').innerText = "Passwords do not match!";
+            } else {
+                document.getElementById('passwordMismatch').innerText = "";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="signup-box">
+            <h2>Create an Account</h2>
+            <p>Join us and explore the features</p>
+            <form id="signupForm" action="signup.php" method="POST">
+                <input type="text" name="full_name" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+
+                <!-- Password Input with ID for Real-Time Validation -->
+                <input type="password" id="password" name="password" placeholder="Password" required onkeyup="validatePassword()">
+                
+                <!-- Confirm Password Input with ID for Real-Time Validation -->
+                <input type="password" id="confirmPassword" name="confirm_password" placeholder="Confirm Password" required onkeyup="validatePassword(); matchPasswords()">
+                
+                <!-- Display Password Validation Errors -->
+                <div id="passwordErrors" style="color: red;"></div>
+                <div id="passwordMismatch" style="color: red;"></div>
+                
+                <button type="submit" id="signupBtn" class="btn" disabled>Sign Up</button>
+            </form>
+        </div>
+        <div class="illustration">
+            <img src="../images/log.png" alt="Signup Illustration">
+        </div>
+    </div>
+</body>
+</html>

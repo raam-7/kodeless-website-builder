@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started</title>
+    <style>
+        /* Global settings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: 'Arial', sans-serif;
+            height: 100%;
+            background: linear-gradient(135deg, #dff6ff, #b3ecff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Background bubbles */
+        .background-lightblue {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .background-lightblue::before, .background-lightblue::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 195, 255, 0.2);
+        }
+
+        .background-lightblue::before {
+            width: 200px;
+            height: 200px;
+            top: -50px;
+            left: -50px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .background-lightblue::after {
+            width: 300px;
+            height: 300px;
+            bottom: -100px;
+            right: -100px;
+            animation: floatReverse 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes floatReverse {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(20px); }
+        }
+
+        /* Container for the cards */
+        .container {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            width: 280px;
+            height: 420px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+           
+        }
+
+        /* Card Title */
+        .card h3 {
+            font-size: 1.5rem;
+            color: #003366;
+            margin-bottom: 20px;
+        }
+
+        /* Card Images */
+        .card-image {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        /* Button Styling */
+        /* Button Styling */
+.action-btn {
+    display: inline-block;
+    text-align: center;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: transparent;
+    border: 2px solid #00cc99;
+    border-radius: 25px;
+    padding: 10px 25px;
+    font-size: 1rem;
+    text-decoration: none; /* Removes underline from links */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    color: #00cc99;
+    font-weight: bold;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(90deg, #00cc99, #00c3ff, #ff007f, #ffcc00);
+    background-size: 200% auto;
+}
+
+/* Hover Effect */
+.action-btn:hover {
+    background-position: right center;
+    background-color: #00cc99;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(90deg, #ff007f, #ffcc00, #00c3ff, #ff5f5f, #eb5e00, #ff1f8f, #5c4cee);
+    background-size: 200% auto;
+    box-shadow: 0 4px 15px rgba(0, 204, 153, 0.5);
+    transform: translate(-50%, -5px) scale(1.05);
+}
+
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-lightblue"></div>
+    
+    <div class="container">
+        <div class="card">
+            <h3>GET STARTED FROM SCRATCH</h3>
+            <img src="../images/startfromscratch.jpg" alt="Get Started" class="card-image">
+            <a href="../Template/temp.php" class="action-btn">GET STARTED ➔</a>
+        </div>
+
+        <div class="card">
+            <h3>CHOOSE FROM TEMPLATES</h3>
+            <img src="../images/template.jpg" alt="Choose Templates" class="card-image">
+            <a href="template (1).html" class="action-btn">VIEW TEMPLATES ➔</a>
+        </div>
+
+        <div class="card">
+            <h3>CHAT & BUILD</h3><br><br>
+            <img src="../images/mission.png" alt="Chat and Build" class="card-image">
+            <a href="/bot/index.html" class="action-btn">LET'S CHAT ➔</a>
+        </div>
+    </div>
+</body>
+</html>

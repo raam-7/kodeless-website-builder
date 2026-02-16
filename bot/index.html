@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KodeBot</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 20px 0;
+      color: #00c6ff;
+      font-size: 28px;
+    }
+
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    #chatBox {
+      flex-grow: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 123, 255, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      position: relative;
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #007bff, #00c6ff);
+      color: white;
+      border-bottom-right-radius: 0;
+    }
+
+    .bot {
+      align-self: flex-start;
+      background: #1e1e2f;
+      color: #fff;
+      border-bottom-left-radius: 0;
+    }
+
+    .input-box {
+      display: flex;
+      gap: 10px;
+      padding: 15px;
+      background: #111;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0, 198, 255, 0.2);
+    }
+
+    #userInput {
+      flex: 1;
+      padding: 12px 16px;
+      font-size: 16px;
+      border: 1px solid #555;
+      border-radius: 20px;
+      background-color: #222;
+      color: #fff;
+      outline: none;
+    }
+
+    button {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #007bff, #00c6ff);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 10px #00c6ff88;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #00c6ffcc;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      padding: 5px 10px;
+      font-size: 12px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    pre {
+      margin: 0;
+      overflow-x: auto;
+      background: #1e1e1e;
+      padding: 1rem;
+      border-radius: 5px;
+      position: relative;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .typing-dots {
+      display: inline-block;
+    }
+
+    .typing-dots span {
+      animation: blink 1s infinite;
+      font-weight: bold;
+      font-size: 20px;
+      margin: 0 2px;
+    }
+
+    .typing-dots span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dots span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0.2; }
+      20% { opacity: 1; }
+      100% { opacity: 0.2; }
+    }
+
+    @media screen and (max-width: 600px) {
+      .message { max-width: 90%; }
+      #userInput { font-size: 14px; }
+      button { padding: 8px 16px; font-size: 14px; }
+      .chat-container { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>💬 KODEBOT</h2>
+
+  <div class="chat-container">
+    <div class="chat-box" id="chatBox"></div>
+    <div class="input-box">
+      <input type="text" id="userInput" placeholder="Ask anything...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+
+  <script>
+    const chatBox = document.getElementById("chatBox");
+  
+    function appendMessage(text, isUser) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = "message " + (isUser ? "user" : "bot");
+  
+      if (!isUser && /<pre><code/.test(text)) {
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = text;
+  
+        const codeBlocks = tempDiv.querySelectorAll("pre > code");
+        codeBlocks.forEach(code => {
+          const pre = code.parentElement;
+          const copyBtn = document.createElement("button");
+          copyBtn.className = "copy-btn";
+          copyBtn.innerText = "Copy";
+          copyBtn.onclick = () => {
+            navigator.clipboard.writeText(code.textContent).then(() => {
+              copyBtn.innerText = "Copied!";
+              setTimeout(() => copyBtn.innerText = "Copy", 1500);
+            });
+          };
+          pre.style.position = "relative"; // Ensure relative positioning for the button
+          copyBtn.style.position = "absolute";
+          copyBtn.style.top = "8px";
+          copyBtn.style.right = "8px";
+          pre.insertBefore(copyBtn, code);
+        });
+  
+        msgDiv.innerHTML = tempDiv.innerHTML;
+      } else {
+        msgDiv.innerHTML = text;
+      }
+  
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      Prism.highlightAll();
+    }
+  
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const message = input.value.trim();
+      if (!message) return;
+  
+      appendMessage(message, true);
+      input.value = "";
+  
+      const typing = document.createElement("div");
+      typing.className = "message bot";
+      typing.innerHTML = `<div class="typing-dots"><span>.</span><span>.</span><span>.</span></div>`;
+      chatBox.appendChild(typing);
+      chatBox.scrollTop = chatBox.scrollHeight;
+  
+      fetch("chat.php", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: "message=" + encodeURIComponent(message)
+      })
+      .then(res => res.text())
+      .then(reply => {
+        chatBox.removeChild(typing);
+        appendMessage(reply, false);
+      })
+      .catch(err => {
+        chatBox.removeChild(typing);
+        appendMessage("Error: " + err.message, false);
+      });
+    }
+  
+    document.getElementById("userInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") sendMessage();
+    });
+  </script>
+  
+
+</body>
+</html>

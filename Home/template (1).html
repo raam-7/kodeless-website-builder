@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Gallery</title>
+    <style>
+        :root {
+            --bg-light: linear-gradient(to bottom, #f2f6fc, #cce0ff);
+            --bg-dark: linear-gradient(to bottom, #1a1a2e, #16213e);
+            --text-light: #0066ff;
+            --text-dark: #66b2ff;
+            --card-light: white;
+            --card-dark: #0f3460;
+            --shadow-light: rgba(0, 0, 0, 0.2);
+            --shadow-dark: rgba(255, 255, 255, 0.1);
+            --circle-light: rgba(0, 102, 255, 0.1);
+            --circle-dark: rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--bg-light);
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.5s ease;
+        }
+        
+        .dark-mode {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+        }
+        
+        .circle {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: var(--circle-light);
+            border-radius: 50%;
+            z-index: -1;
+        }
+        .dark-mode .circle {
+            background: var(--circle-dark);
+        }
+        
+        .circle.one { top: 10%; left: 5%; }
+        .circle.two { bottom: 15%; right: 10%; }
+        
+        h1 { color: var(--text-light); transition: color 0.5s ease; }
+        .dark-mode h1 { color: var(--text-dark); }
+        
+        #searchBar {
+            width: 50%;
+            padding: 10px;
+            margin: 20px 0;
+            border: 2px solid var(--text-light);
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.5s ease;
+        }
+        .dark-mode #searchBar {
+            border: 2px solid var(--text-dark);
+            background: #0f3460;
+            color: white;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            justify-items: center;
+        }
+        
+        .template {
+            width: 250px;
+            background-color: var(--card-light);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px var(--shadow-light);
+            overflow: hidden;
+            transition: transform 0.3s ease, background 0.5s ease, box-shadow 0.5s ease;
+            padding: 10px;
+        }
+        .dark-mode .template {
+            background: var(--card-dark);
+            box-shadow: 0 4px 8px var(--shadow-dark);
+        }
+        .template:hover { transform: scale(1.05); }
+        .template img { width: 100%; height: 100px; object-fit: cover; }
+        .template p { margin: 5px; font-weight: bold; color: #333; }
+        .dark-mode .template p { color: #fff; }
+        
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+        .btn {
+            flex: 1;
+            padding: 8px;
+            background: var(--text-light);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .dark-mode .btn { background: var(--text-dark); }
+        .btn:hover { background: #0044cc; }
+        .dark-mode .btn:hover { background: #5599ff; }
+        
+        .toggle-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .toggle-btn {
+            padding: 10px 20px;
+            background: var(--text-light);
+            border: none;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .dark-mode .toggle-btn {
+            background: var(--text-dark);
+        }
+        .toggle-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+    <script>
+        function searchTemplates() {
+            let input = document.getElementById("searchBar").value.toLowerCase();
+            let templates = document.getElementsByClassName("template");
+            for (let i = 0; i < templates.length; i++) {
+                let name = templates[i].getElementsByTagName("p")[0].innerText.toLowerCase();
+                templates[i].style.display = name.includes(input) ? "block" : "none";
+            }
+        }
+        
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+            let button = document.getElementById("themeToggle");
+            button.textContent = document.body.classList.contains("dark-mode") ? "Light Theme" : "Dark Theme";
+        }
+    </script>
+</head>
+<body>
+    <div class="circle one"></div>
+    <div class="circle two"></div>
+    <div class="toggle-container">
+        <button id="themeToggle" class="toggle-btn" onclick="toggleTheme()">Dark Theme</button>
+    </div>
+    <h1>Template Gallery</h1>
+    <input type="text" id="searchBar" onkeyup="searchTemplates()" placeholder="Search templates...">
+    <div class="grid-container">
+        <div class="template">
+            <img src="../images/cric.jpeg" alt="Template 1">
+            <p>Cricket Template</p>
+            <div class="btn-container">
+                <!-- View the template in a new tab -->
+                <button class="btn" onclick="window.open('/kodeless-new/Cricket_temp_editable_kodeless/index.html', '_blank')">View Template</button>
+        
+                <!-- Download the template as a ZIP file -->
+                <a href="/kodeless-new/Cricket_temp_editable_kodeless%20(1).zip" download class="btn">Download Template</a>
+            </div>
+        </div>
+
+        <div class="template">
+            <img src="../images/yoga.jpeg" alt="Template 1">
+            <p>Yoga Template(fitness)</p>
+            <div class="btn-container">
+                <!-- View the template in a new tab -->
+                <button class="btn" onclick="window.open('/kodeless-new/yoga/index.html', '_blank')">View Template</button>
+        
+                <!-- Download the template as a ZIP file -->
+                <a href="/kodeless-new/Cricket_temp_editable_kodeless%20(1).zip" download class="btn">Download Template</a>
+
+            </div>
+        </div>
+
+        <div class="template">
+            <img src="../images/foot.jpeg" alt="Template 1">
+            <p>Sports Template(football)</p>
+            <div class="btn-container">
+                <!-- View the template in a new tab -->
+                <button class="btn" onclick="window.open('/kodeless-new/soccer-master/index.html', '_blank')">View Template</button>
+        
+                <!-- Download the template as a ZIP file -->
+                <a href="clinic-website-template.zip" download class="btn">Download Template</a>
+            </div>
+        </div>
+
+        <div class="template">
+            <img src="../images/gym1.jpeg" alt="Template 1">
+            <p>Sports Template(football)</p>
+            <div class="btn-container">
+                <!-- View the template in a new tab -->
+                <button class="btn" onclick="window.open('/kodeless-new/gym 1/index.html', '_blank')">View Template</button>
+        
+                <!-- Download the template as a ZIP file -->
+                <a href="clinic-website-template.zip" download class="btn">Download Template</a>
+            </div>
+        </div>
+
+        <div class="template">
+            <img src="../images/gym2.jpeg" alt="Template 1">
+            <p>Sports Template(football)</p>
+            <div class="btn-container">
+                <!-- View the template in a new tab -->
+                <button class="btn" onclick="window.open('/kodeless-new/gym 2/index.html', '_blank')">View Template</button>
+        
+                <!-- Download the template as a ZIP file -->
+                <a href="clinic-website-template.zip" download class="btn">Download Template</a>
+            </div>
+        </div>
+
+        <div class="template">
+            <img src="../images/gym3.jpeg" alt="Template 1">
+            <p>Sports Template(football)</p>
+            <div class="btn-container">
+                <!-- View the template in a new tab -->
+                <button class="btn" onclick="window.open('/kodeless-new/gym 3/index.html', '_blank')">View Template</button>
+        
+                <!-- Download the template as a ZIP file -->
+                <a href="clinic-website-template.zip" download class="btn">Download Template</a>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

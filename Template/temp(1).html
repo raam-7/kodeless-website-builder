@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailblocks Sidebar Clone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="temp.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="bg-gray-100">
+   <!-- Navbar -->
+<div class="navbar w-full shadow-md p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">Component Previewer</h1>
+    
+    <!-- Icons Section -->
+    <div class="flex space-x-4">
+        <!-- Share Button -->
+        <button class="flex items-center bg-none border-2 border-white-500 text-white px-4 py-2 rounded navbar-button" style="padding: 15px;">
+            <i class="lucide lucide-share-2"></i>
+            <span><i class="fa-regular fa-share-from-square"></i>
+
+               </span>
+        </button>
+        <button id="saveBtn" onclick="saveTemplate(event)">Save</button>
+        <button id="viewTemplatesBtn" onclick="window.location.href='view.html'">View Templates</button>
+
+        
+
+        <button id="downloadBtn">Download Template</button>
+        <!-- Export Button -->
+        <button class="flex items-center bg-none border-2 border-white-500 text-white px-4 py-2 rounded navbar-button" style="padding: 15px;">
+            <i class="lucide lucide-download"></i>
+            <span>
+
+                <i class="fa-solid fa-cloud-arrow-up"></i></span>
+        </button>
+    </div>
+</div>
+
+
+<!-- Lucide Icons Script -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+</script>
+
+<div class="flex">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2 class="section-title">Navbars</h2>
+        <div class="sidebar-item" draggable="true" data-component="blog1" ondragstart="drag(event)" onclick="previewComponent('blog1')">
+            <img src="images/blog1.png" alt="Blog Layout 1">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="blog2" ondragstart="drag(event)" onclick="previewComponent('blog2')">
+            <img src="images/blog2.png" alt="Blog Layout 2">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="blog3" ondragstart="drag(event)" onclick="previewComponent('blog3')">
+            <img src="images/blog3.png" alt="Blog Layout 3">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="blog4" ondragstart="drag(event)" onclick="previewComponent('blog4')">
+            <img src="images/blog4.png" alt="Blog Layout 4">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="blog5" ondragstart="drag(event)" onclick="previewComponent('blog5')">
+            <img src="images/blog5.png" alt="Blog Layout 5">
+        </div>
+    
+        <h2 class="section-title">About Us</h2>
+        <div class="sidebar-item" draggable="true" data-component="About" ondragstart="drag(event)" onclick="previewComponent('About')">
+            <img src="images/About.png" alt="About">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="About2" ondragstart="drag(event)" onclick="previewComponent('About2')">
+            <img src="images/About2.png" alt="About 2">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="About3" ondragstart="drag(event)" onclick="previewComponent('About3')">
+            <img src="images/About3.png" alt="About 3">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="About4" ondragstart="drag(event)" onclick="previewComponent('About4')">
+            <img src="images/About4.png" alt="About 4">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="About5" ondragstart="drag(event)" onclick="previewComponent('About5')">
+            <img src="images/About5.png" alt="About 5">
+        </div>
+
+        <h2 class="section-title">Contact Us</h2>
+        <div class="sidebar-item" draggable="true" data-component="Contact" ondragstart="drag(event)" onclick="previewComponent('Contact')">
+            <img src="images/Contact.png" alt="Contact">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Contact2" ondragstart="drag(event)" onclick="previewComponent('Contact2')">
+            <img src="images/Contact2.png" alt="Contact2">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Contact3" ondragstart="drag(event)" onclick="previewComponent('Contact3')">
+            <img src="images/Contact3.png" alt="Contact3">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Contact4" ondragstart="drag(event)" onclick="previewComponent('Contact4')">
+            <img src="images/Contact4.png" alt="Contact4">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Contact5" ondragstart="drag(event)" onclick="previewComponent('Contact5')">
+            <img src="images/Contact5.png" alt="Contact5">
+        </div>
+
+        <h2 class="section-title">Testimonials</h2>
+
+        <div class="sidebar-item" draggable="true" data-component="Test" ondragstart="drag(event)" onclick="previewComponent('Test')">
+            <img src="images/Test.png" alt="Test">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Test2" ondragstart="drag(event)" onclick="previewComponent('Test2')">
+            <img src="images/Test2.png" alt="Test">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Test3" ondragstart="drag(event)" onclick="previewComponent('Test3')">
+            <img src="images/Test3.png" alt="Test">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Test4" ondragstart="drag(event)" onclick="previewComponent('Test4')">
+            <img src="images/Test3.png" alt="Test">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Test5" ondragstart="drag(event)" onclick="previewComponent('Test5')">
+            <img src="images/Test5.png" alt="Test">
+        </div>
+
+        <h2 class="section-title">Login/Signup</h2>
+        <div class="sidebar-item" draggable="true" data-component="Log" ondragstart="drag(event)" onclick="previewComponent('Log')">
+            <img src="images/Log.png" alt="Log">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Log2" ondragstart="drag(event)" onclick="previewComponent('Log2')">
+            <img src="images/Log2.png" alt="Log">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Log3" ondragstart="drag(event)" onclick="previewComponent('Log3')">
+            <img src="images/Log3.png" alt="Log">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Log4" ondragstart="drag(event)" onclick="previewComponent('Log4')">
+            <img src="images/Log4.png" alt="Log">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Log5" ondragstart="drag(event)" onclick="previewComponent('Log5')">
+            <img src="images/Log5.png" alt="Log">
+        </div>
+
+        <h2 class="section-title">Footers</h2>
+        <div class="sidebar-item" draggable="true" data-component="Footer" ondragstart="drag(event)" onclick="previewComponent('Footer')">
+            <img src="images/Footer.png" alt="Footer">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Footer2" ondragstart="drag(event)" onclick="previewComponent('Footer2')">
+            <img src="images/Footer2.png" alt="Footer">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Footer3" ondragstart="drag(event)" onclick="previewComponent('Footer3')">
+            <img src="images/Footer3.png" alt="Footer">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Footer4" ondragstart="drag(event)" onclick="previewComponent('Footer4')">
+            <img src="images/Footer4.png" alt="Footer">
+        </div>
+        <div class="sidebar-item" draggable="true" data-component="Footer5" ondragstart="drag(event)" onclick="previewComponent('Footer5')">
+            <img src="images/Footer5.png" alt="Footer">
+        </div>
+  
+    </aside>
+
+    <div id="hover-preview" class="hover-preview"></div>    
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <h2 class="main-title">Preview</h2>
+        <div id="preview-container" class="preview-box" ondrop="drop(event)" ondragover="allowDrop(event)">
+            
+        </div>
+    
+    </main>
+</div>
+
+<!-- <div id="templateList" ></div> -->
+
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Kodeless</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            background: #eef6fd;
+            color: #333;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .logo {
+            font-size: 28px;
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #007bff;
+            transform: scale(1.1);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #007bff, #00c6ff);
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            margin-bottom: 15px;
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        .hero p {
+            font-size: 20px;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .about-section {
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .about-section img {
+            width: 300px;
+            border-radius: 50%;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            animation: zoomIn 1s ease-in-out;
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .about-text h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #007bff;
+            animation: fadeInLeft 1s ease-in-out;
+        }
+
+        .about-text p {
+            font-size: 18px;
+            max-width: 900px;
+            line-height: 1.8;
+            color: #555;
+            animation: fadeInRight 1s ease-in-out;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .background-lightblue {
+            background: #dff6ff;
+            padding: 60px 20px;
+            position: relative;
+        }
+
+        .background-lightblue::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(0, 195, 255, 0.2);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .background-lightblue::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            right: 50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(0, 195, 255, 0.2);
+            border-radius: 50%;
+            animation: floatReverse 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes floatReverse {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(20px); }
+        }
+
+        .team-section, .vision-section, .values-section {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .team-section h2, .vision-section h2, .values-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        .team-members {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .team-member img {
+            width: 200px;
+            height: 300px;
+            border-radius: 0%;
+            margin-bottom: 15px;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #00c6ff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #007bff;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .about-text h2 {
+                font-size: 28px;
+            }
+
+            .about-section img {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">KODELESS</div>
+        <nav>
+            <ul>
+                <li><a href="home.php">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>About Us</h1>
+        <p>Empowering you to build beautiful websites effortlessly.</p>
+    </section>
+
+    <section class="about-section">
+        <img src="../images/Work.png" alt="Team working together">
+        <div class="about-text">
+            <h2>Our Mission</h2>
+            <p>At Kodeless, we believe in simplifying website creation for everyone. Our mission is to provide intuitive tools that make it easy for individuals and businesses to bring their ideas to life without any coding knowledge. Our commitment is to innovation, user-friendly design, and continuous improvement, ensuring that our platform grows with your needs and helps you stay ahead in the digital landscape.</p>
+        </div>
+    </section>
+
+    <section class="background-lightblue">
+        <div class="vision-section">
+            <h2>Our Vision</h2>
+            <p>We envision a world where anyone, regardless of their technical background, can create stunning, functional websites that reflect their personal or professional brand. By removing the barriers to web development, we aim to foster creativity and empower our users to share their stories and ideas with the world.</p>
+        </div>
+
+        <div class="values-section">
+            <h2>Our Values</h2>
+            <p>Our core values are simplicity, innovation, and community. We strive to create a platform that is easy to use, continuously evolving, and supported by a vibrant community of users who inspire and help each other grow. Integrity, transparency, and user-centric development are at the heart of everything we do.</p>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <h2>Meet Our Team</h2>
+        <div class="team-members">
+            <div class="team-member">
+                <!-- <img src="./WhatsApp Image 2025-02-10 at 9.31.10 AM.jpeg" alt="Team Member 1"> -->
+                <h3>Manan Dharia</h3>
+                
+            </div>
+            <div class="team-member">
+                <!-- <img src="./WhatsApp Image 2025-02-10 at 9.35.13 AM.jpeg" alt="Team Member 2"> -->
+                <h3>Vraj Daxini</h3>
+              
+            </div>
+            <div class="team-member">
+                <!-- <img src="./WhatsApp Image 2025-02-10 at 9.35.15 AM.jpeg" alt="Team Member 3"> -->
+                <h3>Raam Bhanushali</h3>
+            </div>
+
+            <div class="team-member">
+                <!-- <img src="./WhatsApp Image 2025-02-10 at 9.35.15 AM.jpeg" alt="Team Member 3"> -->
+                <h3>Aditya Mehta</h3>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Powered by <a href="#">Kodeless Website Builder</a></p>
+        <p>&copy; 2025 Kodeless. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

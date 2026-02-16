@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Chatbot for Templates</title>
+  <style>
+    /* Global reset & transitions */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #dff6ff, #b3ecff);
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      color: #333;
+    }
+    /* Background Circular Animation */
+    .background-lightblue {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .background-lightblue::before,
+    .background-lightblue::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 195, 255, 0.2);
+    }
+    .background-lightblue::before {
+      width: 200px;
+      height: 200px;
+      top: -50px;
+      left: -50px;
+      animation: float 6s ease-in-out infinite;
+    }
+    .background-lightblue::after {
+      width: 300px;
+      height: 300px;
+      bottom: -100px;
+      right: -100px;
+      animation: floatReverse 8s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    @keyframes floatReverse {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(20px); }
+    }
+    /* Dark Mode Styles */
+    .dark-mode {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #f4f4f4;
+    }
+    .dark-mode .chat-container { background: #333; }
+    .dark-mode .template-card { background: rgba(50, 50, 50, 0.9); }
+    .dark-mode .chat-message.bot { background: #555; color: #f4f4f4; }
+    .dark-mode .chat-message.user { background: #777; color: #f4f4f4; }
+    /* Toggle Button for Dark Mode */
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background: #007BFF;
+      color: white;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .toggle-btn:hover { background: #0056b3; }
+    /* Chat Open Button */
+    .chat-open-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 50%;
+      background: #007BFF;
+      color: white;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .chat-open-btn:hover { background: #0056b3; }
+    /* Chat Container Styles */
+    .chat-container {
+      width: 90%;
+      max-width: 400px;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin: 80px auto 20px auto;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+    .chat-message {
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      display: block;
+      text-align: left;
+      word-wrap: break-word;
+    }
+    .chat-message.bot {
+      background: #e3f2fd;
+      color: #333;
+    }
+    .chat-message.user {
+      background: #c8e6c9;
+      color: #333;
+      text-align: right;
+    }
+    .options, .category-options {
+      margin-top: 10px;
+    }
+    .options button, .category-options button {
+      padding: 10px;
+      margin: 5px 5px 5px 0;
+      border: none;
+      border-radius: 5px;
+      background: #007BFF;
+      color: white;
+      cursor: pointer;
+    }
+    .options button:hover, .category-options button:hover {
+      background: #0056b3;
+    }
+    /* Template Card Styles */
+    .template-card {
+      margin: 20px auto;
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      text-align: center;
+      display: none;
+    }
+    .template-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .template-card button {
+      padding: 10px 15px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      background: #007BFF;
+      color: white;
+      cursor: pointer;
+    }
+    .template-card button:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+  <div class="background-lightblue"></div>
+  <button class="toggle-btn" onclick="toggleMode()">Toggle Dark Mode</button>
+  <button class="chat-open-btn" onclick="toggleChat()">Chat</button>
+  
+  <!-- Chat Container (hidden by default) -->
+  <div id="chat-container" class="chat-container" style="display: none;">
+    <div id="chat-box"></div>
+  </div>
+  
+  <!-- Template Card (shown after category selection) -->
+  <div class="template-card" id="template-card"></div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let conversationStep = 0;
+      const chatBox = document.getElementById('chat-box');
+      const templateCard = document.getElementById('template-card');
+      
+      // Toggle dark/light mode
+      window.toggleMode = function() {
+        document.body.classList.toggle('dark-mode');
+      }
+      
+      // Open/close chat container
+      window.toggleChat = function() {
+        const chatContainer = document.getElementById('chat-container');
+        if(chatContainer.style.display === 'none' || chatContainer.style.display === '') {
+          chatContainer.style.display = 'block';
+          if (conversationStep === 0) startChat();
+        } else {
+          chatContainer.style.display = 'none';
+        }
+      }
+      
+      // Append a chat message
+      function appendMessage(message, sender = 'bot') {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('chat-message', sender);
+        msgDiv.textContent = message;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+      
+      // Append option buttons
+      function appendOptions(options, callback) {
+        const optionsDiv = document.createElement('div');
+        optionsDiv.classList.add('options');
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.textContent = opt.label;
+          btn.onclick = () => {
+            appendMessage(opt.label, 'user');
+            optionsDiv.remove();
+            callback(opt.value);
+          };
+          optionsDiv.appendChild(btn);
+        });
+        chatBox.appendChild(optionsDiv);
+      }
+      
+      // Append category option buttons for final question
+      function appendCategoryOptions() {
+        const optionsDiv = document.createElement('div');
+        optionsDiv.classList.add('category-options');
+        const categories = [
+          { label: 'E-Commerce', value: 'ecommerce' },
+          { label: 'Sports', value: 'Sports' },
+          { label: 'Fitness', value: 'Fitness' },
+          { label: 'Medical', value: 'medical' }
+        ];
+        categories.forEach(cat => {
+          const btn = document.createElement('button');
+          btn.textContent = cat.label;
+          btn.onclick = () => {
+            appendMessage(cat.label, 'user');
+            optionsDiv.remove();
+            showTemplate(cat.value);
+          };
+          optionsDiv.appendChild(btn);
+        });
+        chatBox.appendChild(optionsDiv);
+      }
+      
+      // Start chat conversation with predefined options
+      function startChat() {
+        conversationStep = 0;
+        appendMessage('Hi, hello! Please greet me:');
+        appendOptions([{ label: 'Hello', value: 'hello' }], () => {
+          setTimeout(() => {
+            conversationStep = 1;
+            appendMessage('What would you like to create?');
+            appendOptions([{ label: 'Website Template', value: 'website' }], () => {
+              setTimeout(() => {
+                conversationStep = 2;
+                appendMessage('Which category of template would you like to create?');
+                appendCategoryOptions();
+              }, 500);
+            });
+          }, 500);
+        });
+      }
+      
+      // Show the corresponding template card
+      window.showTemplate = function(category) {
+        const templates = {
+          ecommerce: {
+            title: 'E-Commerce Template',
+            image: '../images/ecom.jpeg',
+            viewLink: '/kodeless-new/finexo-html/',
+            downloadLink: 'ecommerce_template.zip'
+          },
+          Sports: {
+            title: 'Business Template',
+            image: 'business.jpg',
+            viewLink: '/kodeless-new/yoga/index.html',
+            downloadLink: 'business_template.zip'
+          },
+          Fitness: {
+            title: 'Portfolio Template',
+            image: 'portfolio.jpg',
+            viewLink: 'portfolio_template.html',
+            downloadLink: 'portfolio_template.zip'
+          },
+          medical: {
+            title: 'Medical Template',
+            image: 'medical.jpg',
+            viewLink: 'medical_template.html',
+            downloadLink: 'medical_template.zip'
+          }
+        };
+        const template = templates[category];
+        if (template) {
+          templateCard.style.display = 'block';
+          templateCard.innerHTML = `
+            <h2>${template.title}</h2>
+            <img src="${template.image}" alt="${template.title}">
+            <button onclick="window.open('${template.viewLink}', '_blank')">View Template</button>
+            <a href="${template.downloadLink}" download><button>Download Template</button></a>
+          `;
+        } else {
+          appendMessage('Template not found.');
+        }
+      }
+      
+    });
+  </script>
+</body>
+</html>

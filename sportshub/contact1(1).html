@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Sole Citadel</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+       
+       ul a{
+  color: white;
+}
+        .contact__container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .contact__form {
+            margin-top: 30px;
+        }
+        .contact__form input[type="text"],
+        .contact__form input[type="email"],
+        .contact__form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .contact__form textarea {
+            height: 150px;
+        }
+        .contact__form button {
+            padding: 12px 20px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .contact__form button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav__links">
+                <a href="index.html">
+                    <img src="Logo.jpg" alt="" style="width: 35px;">
+                </a>
+              <li class="link logo">SPORTSHUB</li>
+              <!-- <li class="dropdown"><a href="product.html"></a>
+                <button class="dropbtn">PRODUCT</button>
+              </li> -->
+              <li class="link"><a href="sports.html">PRODUCTS</a></li>
+              <li class="link"><a href="#brand">BRANDS</a></li>
+             
+              <li class="link"><a href="contact1.html">CONTACT US</a></li>
+            </ul>
+          
+          </nav>
+    
+    </header>
+
+    <div class="contact__container">
+        <h1>Contact Us</h1>
+        <p>Have a question or need assistance? Fill out the form below.</p>
+        
+        <form class="contact__form" action="message.php" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form> 
+    </div>
+
+    <footer>
+        <div class="section__container footer__container">
+            <div class="footer__col">
+                <h4>SHOPS</h4>
+                <p>Men</p>
+                <p>Women</p>
+                <p>Top Brands</p>
+                <p>Bags & Accessories</p>
+            </div>
+            <div class="footer__col">
+                <h4>INFORMATION</h4>
+                <p>About Us</p>
+                <p>Customer Service</p>
+                <p>Manufacturers</p>
+            </div>
+        </div>
+        <div class="section__container footer__bar">
+            <div class="copyright">
+                Copyright © 2024 Sole Citadel. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

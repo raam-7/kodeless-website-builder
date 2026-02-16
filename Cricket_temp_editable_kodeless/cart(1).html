@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Shop</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="header" id="header">
+    <div class="logo" contenteditable="true">CricketPro</div>
+    <nav class="navbar">
+      <a href="index.html" contenteditable="true">Home</a>
+      <a href="product.html" contenteditable="true">Products</a>
+      <a href="category.html" contenteditable="true">Categories</a>
+      <a href="contact.html" contenteditable="true">Contact</a>
+      <a href="cart.html" contenteditable="true">Cart</a>
+    </nav>
+    <button class="remove-btn" onclick="removeComponent('header')">❌</button>
+  </header>
+
+
+  <!-- Cart Section -->
+  <section class="cart-page" id="cart-page">
+    <h1 contenteditable="true">Your Cart</h1>
+    <div class="cart-container">
+      <table id="cart-table" contenteditable="true">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Cart items will be dynamically populated here -->
+        </tbody>
+      </table>
+      <div class="cart-summary">
+        <h3>Total Price: ₹<span id="total-price">0</span></h3>
+        <button class="btn checkout-btn">Checkout</button>
+      </div>
+    </div>
+    <button class="remove-btn" onclick="removeComponent('cart-page')">❌</button>
+  </section>
+   <!-- Save Button (Hidden Initially) -->
+   <button id="saveChanges" onclick="saveContent()" >
+    Save
+</button>
+<button id="undoButton" onclick="undoRemove()" >
+    Undo
+</button>
+  <a href="contact.html">
+    Edit next page
+  </button>
+
+  <script>
+    let removedComponents = []; // Stack to store removed components
+  
+    // Save content and removed components
+    function saveContent() {
+      const elements = document.querySelectorAll("[contenteditable=true]");
+      let contentData = [];
+  
+      // Collect all editable content
+      elements.forEach(element => {
+        contentData.push({
+          section: element.getAttribute("data-section"),
+          content: element.innerHTML
+        });
+      });
+  
+      // Send data to the backend
+      fetch("save_content.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: contentData,
+          removed: removedComponents.map(comp => comp.id) // Send removed component IDs
+        })
+      })
+      .then(response => response.text())
+      .then(data => {
+        alert("Changes saved successfully!");
+        document.getElementById("saveChanges").style.display = "none";
+      })
+      .catch(error => console.error("Error:", error));
+    }
+  
+    // Load saved content and removed components on page load
+    window.onload = function () {
+      fetch("load_content.php")
+        .then(response => response.json())
+        .then(data => {
+          // Apply saved content to editable elements
+          data.content.forEach(item => {
+            let element = document.querySelector(`[data-section='${item.section}']`);
+            if (element) {
+              element.innerHTML = item.content;
+            }
+          });
+  
+          // Hide or remove components that were previously removed
+          data.removed.forEach(sectionId => {
+            let element = document.getElementById(sectionId);
+            if (element) {
+              element.remove();
+            }
+          });
+        })
+        .catch(error => console.error("Error loading content:", error));
+    };
+  
+    // Remove a component
+    function removeComponent(id) {
+      let element = document.getElementById(id);
+      if (element) {
+        let parentElement = element.parentElement;
+        let nextSibling = element.nextElementSibling;
+  
+        // Store removed component details
+        removedComponents.push({
+          id: id,
+          content: element.outerHTML,
+          parent: parentElement,
+          nextSibling: nextSibling
+        });
+  
+        // Remove the element from the DOM
+        element.remove();
+        showUndoButton();
+      }
+    }
+  
+    // Undo removal of a component
+    function undoRemove() {
+      if (removedComponents.length > 0) {
+        let lastRemoved = removedComponents.pop();
+        let tempDiv = document.createElement("div");
+        tempDiv.innerHTML = lastRemoved.content;
+        let restoredElement = tempDiv.firstElementChild;
+  
+        if (lastRemoved.parent) {
+          if (lastRemoved.nextSibling) {
+            lastRemoved.parent.insertBefore(restoredElement, lastRemoved.nextSibling);
+          } else {
+            lastRemoved.parent.appendChild(restoredElement);
+          }
+        } else {
+          console.error("Parent element not found, appending to body.");
+          document.body.appendChild(restoredElement);
+        }
+  
+        showUndoButton();
+      }
+    }
+  
+    // Show/hide the Undo button
+    function showUndoButton() {
+      let undoButton = document.getElementById("undoButton");
+      undoButton.style.display = removedComponents.length > 0 ? "block" : "none";
+    }
+  
+    // Listen for input events on editable elements
+    document.addEventListener("input", function (event) {
+      if (event.target.hasAttribute("contenteditable")) {
+        document.getElementById("saveChanges").style.display = "block";
+      }
+    });
+  </script>
+
+  <script src="cart.js"></script>
+</body>
+</html>

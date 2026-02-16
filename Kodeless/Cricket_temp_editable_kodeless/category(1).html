@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Shop</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="category.css">
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="header" id="header">
+    <div class="logo" contenteditable="true">CricketPro</div>
+    <nav class="navbar">
+      <a href="index.html" contenteditable="true">Home</a>
+      <a href="product.html" contenteditable="true">Products</a>
+      <a href="category.html" contenteditable="true">Categories</a>
+      <a href="contact.html" contenteditable="true">Contact</a>
+      <a href="cart.html" contenteditable="true">Cart</a>
+    </nav>
+    <button class="remove-btn" onclick="removeComponent('header')">❌</button>
+</header>
+
+  <!-- Categories Section -->
+  <section class="categories-page">
+    <h1 contenteditable="true">Shop by Categories</h1>
+    <p contenteditable="true">Explore our wide range of cricket equipment categories to suit every need.</p>
+
+    <div class="category-grid">
+      <div class="category-card" id="category-card">
+        <img src="https://www.ceat.com/content/dam/ceat/product-images/cricket/bat/ceat-marvel-ew/front.png" alt="Bats">
+        <h3 contenteditable="true">Bats</h3>
+        <p contenteditable="true">Find the perfect bat for your playing style and level.</p>
+        <a href="product.html" class="btn" contenteditable="true">Shop Now</a><br></br>
+        <button class="remove-btn" onclick="removeComponent('category-card')">❌</button>
+      </div>
+      <div class="category-card" id="category-card2">
+        <img src="https://m.media-amazon.com/images/I/71K9p0st-ZL._SX569_.jpg" alt="Balls">
+        <h3 contenteditable="true">Balls</h3>
+        <p contenteditable="true">High-quality balls for practice, matches, and training.</p>
+        <a href="product.html" class="btn" contenteditable="true">Shop Now</a><br></br>
+        <button class="remove-btn" onclick="removeComponent('category-card2')">❌</button>
+      </div>
+      <div class="category-card" id="category-card3">
+        <img src="https://crickstore.com/cdn/shop/files/img_20200415_184859_1_clipped_rev_1_p.png?v=1724672286&width=516" alt="Gloves">
+        <h3 contenteditable="true">Gloves</h3>
+        <p contenteditable="true">Comfortable and durable gloves for protection and grip.</p>
+        <a href="product.html" class="btn" contenteditable="true">Shop Now</a><br></br>
+        <button class="remove-btn" onclick="removeComponent('category-card3')">❌</button>
+      </div>
+      <div class="category-card" id="category-card4">
+        <img src="https://m.media-amazon.com/images/I/71TFJ1up9FL._SX569_.jpg" alt="Accessories">
+        <h3 contenteditable="true">Accessories</h3>
+        <p contenteditable="true">Complete your gear with our top-quality accessories.</p>
+        <a href="product.html" class="btn" contenteditable="true">Shop Now</a><br></br>
+        <button class="remove-btn" onclick="removeComponent('category-card4')">❌</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer" id="footer">
+    <p contenteditable="true" contenteditable="true">© 2024 CricketPro. All rights reserved.</p>
+    <button class="remove-btn" onclick="removeComponent('footer')">❌</button>
+  </footer>
+
+  <script>
+    function removeComponent(id) {
+      var element = document.getElementById(id);
+      if (element) {
+        element.remove();
+      }
+    }
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>

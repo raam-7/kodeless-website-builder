@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Shop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header id="header">
+    <div class="logo" contenteditable="true" data-section="logo">CricketPro</div>
+    <nav class="navbar">
+      <a href="#" contenteditable="true" data-section="nav-home">Home</a>
+      <a href="#" contenteditable="true" data-section="nav-products">Products</a>
+      <a href="#" contenteditable="true" data-section="nav-categories">Categories</a>
+      <a href="#" contenteditable="true" data-section="nav-contact">Contact</a>
+      <a href="#" contenteditable="true" data-section="nav-cart">Cart</a>
+    </nav>
+    <button class="remove-btn" onclick="removeComponent('header')">❌</button>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-text">
+    <h1 contenteditable="true" data-section="hero-title">Your One-Stop Cricket Shop</h1>
+    <p contenteditable="true" data-section="hero-desc">Explore the best cricket equipment.</p>
+    <a href="product.html" class="btn" contenteditable="true">Shop Now</a>
+    </div>
+    <button class="remove-btn" onclick="removeComponent('home')">❌</button>
+  </section>
+
+  <!-- Products Section -->
+  <section id="products" class="products">
+    <h2 contenteditable="true" data-section="products-title">Featured Products</h2>
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="https://www.ceat.com/content/dam/ceat/product-images/cricket/bat/ceat-marvel-ew/front.png" alt="Cricket Bat">
+        <h3 contenteditable="true" data-section="product1-name">CEAT MARVEL BAT</h3>
+        <p contenteditable="true" data-section="product1-price">₹9,390</p>
+        <button class="btn add-to-cart" data-name="CEAT MARVEL ENGLISH WILLOW BAT" data-price="9390" data-image="https://www.ceat.com/content/dam/ceat/product-images/cricket/bat/ceat-marvel-ew/front.png">Add to Cart</button>
+      </div>
+    </div>
+    <button class="remove-btn" onclick="removeComponent('products')">❌</button>
+  </section>
+
+  <!-- Categories Section -->
+  <section id="categories" class="categories">
+    <h2 contenteditable="true" data-section="categories-title">Shop by Categories</h2>
+    <div class="category-grid">
+      <div class="category-card" contenteditable="true" data-section="category1">Bats</div>
+      <div class="category-card" contenteditable="true" data-section="category2">Balls</div>
+      <div class="category-card" contenteditable="true" data-section="category3">Gloves</div>
+      <div class="category-card" contenteditable="true" data-section="category4">Accessories</div>
+    </div>
+    <button class="remove-btn" onclick="removeComponent('categories')">❌</button>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section id="newsletter" class="newsletter">
+    <h2 contenteditable="true" data-section="newsletter-title">Subscribe to Our Newsletter</h2>
+    <p contenteditable="true" data-section="newsletter-desc">Get the latest deals.</p>
+    <form>
+      <input type="email" placeholder="Enter your email" required>
+      <button type="submit">Subscribe</button>
+    </form>
+    <button class="remove-btn" onclick="removeComponent('newsletter')">❌</button>
+  </section>
+
+  <!-- Footer Section -->
+  <footer id="footer" class="footer">
+    <p contenteditable="true" data-section="footer-text">© 2024 CricketPro. All rights reserved.</p>
+    <button class="remove-btn" onclick="removeComponent('footer')">❌</button>
+  </footer>
+
+  <!-- Save Button (Hidden Initially) -->
+  <button id="saveChanges" onclick="saveContent()" >
+    Save
+</button>
+<button id="undoButton" onclick="undoRemove()" >
+    Undo
+</button>
+<a href="category.html">
+  Edit next page
+</button>
+
+
+<script>
+  let removedComponents = []; // Stack to store removed components
+
+  // Save content and removed components
+  function saveContent() {
+    const elements = document.querySelectorAll("[contenteditable=true]");
+    let contentData = [];
+
+    // Collect all editable content
+    elements.forEach(element => {
+      contentData.push({
+        section: element.getAttribute("data-section"),
+        content: element.innerHTML
+      });
+    });
+
+    // Send data to the backend
+    fetch("save_content.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: contentData,
+        removed: removedComponents.map(comp => comp.id) // Send removed component IDs
+      })
+    })
+    .then(response => response.text())
+    .then(data => {
+      alert("Changes saved successfully!");
+      document.getElementById("saveChanges").style.display = "none";
+    })
+    .catch(error => console.error("Error:", error));
+  }
+
+  // Load saved content and removed components on page load
+  window.onload = function () {
+    fetch("load_content.php")
+      .then(response => response.json())
+      .then(data => {
+        // Apply saved content to editable elements
+        data.content.forEach(item => {
+          let element = document.querySelector(`[data-section='${item.section}']`);
+          if (element) {
+            element.innerHTML = item.content;
+          }
+        });
+
+        // Hide or remove components that were previously removed
+        data.removed.forEach(sectionId => {
+          let element = document.getElementById(sectionId);
+          if (element) {
+            element.remove();
+          }
+        });
+      })
+      .catch(error => console.error("Error loading content:", error));
+  };
+
+  // Remove a component
+  function removeComponent(id) {
+    let element = document.getElementById(id);
+    if (element) {
+      let parentElement = element.parentElement;
+      let nextSibling = element.nextElementSibling;
+
+      // Store removed component details
+      removedComponents.push({
+        id: id,
+        content: element.outerHTML,
+        parent: parentElement,
+        nextSibling: nextSibling
+      });
+
+      // Remove the element from the DOM
+      element.remove();
+      showUndoButton();
+    }
+  }
+
+  // Undo removal of a component
+  function undoRemove() {
+    if (removedComponents.length > 0) {
+      let lastRemoved = removedComponents.pop();
+      let tempDiv = document.createElement("div");
+      tempDiv.innerHTML = lastRemoved.content;
+      let restoredElement = tempDiv.firstElementChild;
+
+      if (lastRemoved.parent) {
+        if (lastRemoved.nextSibling) {
+          lastRemoved.parent.insertBefore(restoredElement, lastRemoved.nextSibling);
+        } else {
+          lastRemoved.parent.appendChild(restoredElement);
+        }
+      } else {
+        console.error("Parent element not found, appending to body.");
+        document.body.appendChild(restoredElement);
+      }
+
+      showUndoButton();
+    }
+  }
+
+  // Show/hide the Undo button
+  function showUndoButton() {
+    let undoButton = document.getElementById("undoButton");
+    undoButton.style.display = removedComponents.length > 0 ? "block" : "none";
+  }
+
+  // Listen for input events on editable elements
+  document.addEventListener("input", function (event) {
+    if (event.target.hasAttribute("contenteditable")) {
+      document.getElementById("saveChanges").style.display = "block";
+    }
+  });
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Shop</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+
+  <!-- Color Picker -->
+  <div class="color-picker">
+    <label for="textColor">Text Color:</label>
+    <input type="color" id="textColor" value="#000000">
+    <button onclick="applyColor()">Apply Color</button>
+  </div>
+
+  <!-- Header Section -->
+  <header class="header" id="header">
+    <div class="logo" contenteditable="true">CricketPro</div>
+    <nav class="navbar">
+      <a href="index.html" contenteditable="true">Home</a>
+      <a href="product.html" contenteditable="true">Products</a>
+      <a href="category.html" contenteditable="true">Categories</a>
+      <a href="contact.html" contenteditable="true">Contact</a>
+      <a href="cart.html" contenteditable="true">Cart</a>
+    </nav>
+    <button class="remove-btn" onclick="removeComponent('header')">❌</button>
+  </header>
+
+  <!-- Contact Section -->
+  <section class="contact">
+    <h1 contenteditable="true">Contact Us</h1>
+    <p contenteditable="true">Have questions? Reach out to us!</p>
+
+    <div class="contact-container">
+      <!-- Contact Form -->
+      <form id="contact-form">
+        <div class="form-group" id="form-group">
+          <label for="name" contenteditable="true">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your Name" required>
+          <button class="remove-btn" onclick="removeComponent('form-group')">❌</button>
+        </div>
+        <div class="form-group" id="form-group1">
+          <label for="email" contenteditable="true">Email</label>
+          <input type="email" id="email" name="email" placeholder="Your Email" required>
+          <button class="remove-btn" onclick="removeComponent('form-group1')">❌</button>
+        </div>
+        <div class="form-group" id="form-group2">
+          <label for="message" contenteditable="true">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+          <button class="remove-btn" onclick="removeComponent('form-group2')">❌</button>
+        </div>
+        <button type="submit" class="btn">Submit</button>
+      </form>
+
+      <!-- Contact Info -->
+      <div class="contact-info">
+        <h3 contenteditable="true">Get in Touch</h3>
+        <p contenteditable="true"><strong>Phone:</strong> +91 98765 43210</p>
+        <p contenteditable="true"><strong>Email:</strong> support@cricketpro.com</p>
+        <p contenteditable="true"><strong>Address:</strong> 123 Cricket Street, Sports City, India</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer" id="footer">
+    <p contenteditable="true">© 2024 CricketPro. All rights reserved.</p>
+    <button class="remove-btn" onclick="removeComponent('footer')">❌</button>
+  </footer>
+
+  <script>
+
+    // JavaScript for color picker
+  function applyColor() {
+    const colorPicker = document.getElementById("textColor");
+    const selectedColor = colorPicker.value;
+
+    const selection = window.getSelection();
+    if (!selection.rangeCount) {
+        alert("Please select text to change its color.");
+        return;
+    }
+
+    const range = selection.getRangeAt(0);
+    if (range.collapsed) {
+        alert("Please select text to change its color.");
+        return;
+    }
+
+    // Create a span to wrap the selected text
+    const span = document.createElement("span");
+    span.style.color = selectedColor;
+    span.appendChild(range.extractContents());
+
+    // Replace the selected text with the colored span
+    range.insertNode(span);
+    selection.removeAllRanges(); // Deselect text after applying color
+}
+
+
+    let removedComponents = []; // Stack to store removed components
+  
+    // Save content and removed components
+    function saveContent() {
+      const elements = document.querySelectorAll("[contenteditable=true]");
+      let contentData = [];
+  
+      // Collect all editable content
+      elements.forEach(element => {
+        contentData.push({
+          section: element.getAttribute("data-section"),
+          content: element.innerHTML
+        });
+      });
+  
+      // Send data to the backend
+      fetch("save_content.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: contentData,
+          removed: removedComponents.map(comp => comp.id) // Send removed component IDs
+        })
+      })
+      .then(response => response.text())
+      .then(data => {
+        alert("Changes saved successfully!");
+        document.getElementById("saveChanges").style.display = "none";
+      })
+      .catch(error => console.error("Error:", error));
+    }
+  
+    // Load saved content and removed components on page load
+    window.onload = function () {
+      fetch("load_content.php")
+        .then(response => response.json())
+        .then(data => {
+          // Apply saved content to editable elements
+          data.content.forEach(item => {
+            let element = document.querySelector(`[data-section='${item.section}']`);
+            if (element) {
+              element.innerHTML = item.content;
+            }
+          });
+  
+          // Hide or remove components that were previously removed
+          data.removed.forEach(sectionId => {
+            let element = document.getElementById(sectionId);
+            if (element) {
+              element.remove();
+            }
+          });
+        })
+        .catch(error => console.error("Error loading content:", error));
+    };
+  
+    // Remove a component
+    function removeComponent(id) {
+      let element = document.getElementById(id);
+      if (element) {
+        let parentElement = element.parentElement;
+        let nextSibling = element.nextElementSibling;
+  
+        // Store removed component details
+        removedComponents.push({
+          id: id,
+          content: element.outerHTML,
+          parent: parentElement,
+          nextSibling: nextSibling
+        });
+  
+        // Remove the element from the DOM
+        element.remove();
+        showUndoButton();
+      }
+    }
+  
+    // Undo removal of a component
+    function undoRemove() {
+      if (removedComponents.length > 0) {
+        let lastRemoved = removedComponents.pop();
+        let tempDiv = document.createElement("div");
+        tempDiv.innerHTML = lastRemoved.content;
+        let restoredElement = tempDiv.firstElementChild;
+  
+        if (lastRemoved.parent) {
+          if (lastRemoved.nextSibling) {
+            lastRemoved.parent.insertBefore(restoredElement, lastRemoved.nextSibling);
+          } else {
+            lastRemoved.parent.appendChild(restoredElement);
+          }
+        } else {
+          console.error("Parent element not found, appending to body.");
+          document.body.appendChild(restoredElement);
+        }
+  
+        showUndoButton();
+      }
+    }
+  
+    // Show/hide the Undo button
+    function showUndoButton() {
+      let undoButton = document.getElementById("undoButton");
+      undoButton.style.display = removedComponents.length > 0 ? "block" : "none";
+    }
+  
+    // Listen for input events on editable elements
+    document.addEventListener("input", function (event) {
+      if (event.target.hasAttribute("contenteditable")) {
+        document.getElementById("saveChanges").style.display = "block";
+      }
+    });
+  </script>
+
+  <script src="contact.js"></script>
+</body>
+</html>

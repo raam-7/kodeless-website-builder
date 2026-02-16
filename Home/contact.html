@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Kodeless</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+    <header>
+        <div class="logo">KODELESS</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="contact-container">
+        <div class="contact-image">
+            <img src="../images/contact2-removebg-preview.png" alt="Contact Us Image">
+        </div>
+        <div class="contact-form">
+            <h2>Get in Touch</h2>
+            <form action="contact.php" method="POST">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit" name="submit">Send Message</button>
+            </form>
+            
+        </div>
+    </section>
+
+    <footer>
+        <p>Powered by <a href="index.html">Kodeless Website Builder</a></p>
+        <p>&copy; 2025 Kodeless. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

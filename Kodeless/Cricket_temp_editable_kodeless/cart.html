@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Shop</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="header" id="header">
+    <div class="logo" contenteditable="true">CricketPro</div>
+    <nav class="navbar">
+      <a href="index.html" contenteditable="true">Home</a>
+      <a href="product.html" contenteditable="true">Products</a>
+      <a href="category.html" contenteditable="true">Categories</a>
+      <a href="contact.html" contenteditable="true">Contact</a>
+      <a href="cart.html" contenteditable="true">Cart</a>
+    </nav>
+    <button class="remove-btn" onclick="removeComponent('header')">❌</button>
+  </header>
+
+
+  <!-- Cart Section -->
+  <section class="cart-page" id="cart-page">
+    <h1 contenteditable="true">Your Cart</h1>
+    <div class="cart-container">
+      <table id="cart-table" contenteditable="true">
+        <thead>
+          <tr>
+            <th contenteditable="true">Product</th>
+            <th contenteditable="true">Name</th>
+            <th contenteditable="true">Price</th>
+            <th contenteditable="true">Quantity</th>
+            <th contenteditable="true">Total</th>
+            <th contenteditable="true">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Cart items will be dynamically populated here -->
+        </tbody>
+      </table>
+      <div class="cart-summary">
+        <h3 contenteditable="true">Total Price: ₹<span id="total-price">0</span></h3>
+        <button class="btn checkout-btn" contenteditable="true">Checkout</button>
+      </div>
+    </div>
+    <button class="remove-btn" onclick="removeComponent('cart-page')">❌</button>
+  </section>
+
+  <script>
+    function removeComponent(id) {
+      var element = document.getElementById(id);
+      if (element) {
+        element.remove();
+      }
+    }
+  </script>
+
+  <script src="cart.js"></script>
+</body>
+</html>

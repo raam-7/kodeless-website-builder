@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #7b6cf7, #4fc3f7);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Floating Bubbles Effect */
+body::before, body::after {
+    content: "";
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 20%, transparent 80%);
+    border-radius: 50%;
+    filter: blur(60px);
+    animation: moveBubbles 6s infinite alternate ease-in-out;
+}
+
+body::before {
+    top: 10%;
+    left: 5%;
+}
+
+body::after {
+    bottom: 10%;
+    right: 5%;
+}
+
+@keyframes moveBubbles {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-20px); }
+}
+
+/* Stable Colored Bubbles in Corners */
+.bubble {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    opacity: 0.6;
+    filter: blur(20px);
+}
+
+/* Top Left Corner */
+.bubble.top-left {
+    top: 5%;
+    left: 5%;
+    background: rgba(255, 99, 71, 0.5); /* Tomato */
+}
+
+/* Bottom Left Corner */
+.bubble.bottom-left {
+    bottom: 5%;
+    left: 5%;
+    background: rgba(60, 179, 113, 0.5); /* Medium Sea Green */
+}
+
+/* Top Right Corner */
+.bubble.top-right {
+    top: 5%;
+    right: 5%;
+    background: rgba(30, 144, 255, 0.5); /* Dodger Blue */
+}
+
+/* Bottom Right Corner */
+.bubble.bottom-right {
+    bottom: 5%;
+    right: 5%;
+    background: rgba(255, 215, 0, 0.5); /* Gold */
+}
+
+.container {
+    display: flex;
+    width: 900px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.login-box {
+    flex: 1;
+    padding: 40px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+form input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+.remember-forgot a {
+    text-decoration: none;
+    color: #4fc3f7;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: #7b6cf7;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background: #5e54c7;
+}
+
+.divider {
+    text-align: center;
+    margin: 15px 0;
+    font-size: 14px;
+}
+
+.google-btn, .facebook-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.google-btn {
+    background: #ea4335;
+    color: #fff;
+}
+
+.facebook-btn {
+    background: #1877f2;
+    color: #fff;
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.signup-link a {
+    color: #4fc3f7;
+    text-decoration: none;
+}
+
+.illustration {
+    flex: 1;
+    background: linear-gradient(135deg, #f1f1ff, #1181b3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Illustration Floating Animation */
+@keyframes floatAnimation {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+.illustration img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    animation: floatAnimation 3s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .illustration {
+        display: none;
+    }
+}
+/* Stable Colorful Bubbles in Corners */
+.bubble {
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    filter: blur(30px);
+    opacity: 0.8;
+    pointer-events: none; /* Ensure bubbles do not interfere with other elements */
+}
+
+.bubble-top-left {
+    top: 5%;
+    left: 5%;
+    background: rgba(255, 99, 132, 0.5); /* Soft Pink */
+}
+
+.bubble-top-right {
+    top: 5%;
+    right: 5%;
+    background: rgba(54, 162, 235, 0.5); /* Soft Blue */
+}
+
+.bubble-bottom-left {
+    bottom: 5%;
+    left: 5%;
+    background: rgba(255, 206, 86, 0.5); /* Soft Yellow */
+}
+
+.bubble-bottom-right {
+    bottom: 5%;
+    right: 5%;
+    background: rgba(75, 192, 192, 0.5); /* Soft Teal */
+}
+
+/* Optional: Subtle Pulse Animation */
+@keyframes pulseBubbles {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+.bubble {
+    animation: pulseBubbles 4s infinite alternate ease-in-out;
+}

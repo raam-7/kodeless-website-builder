@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Shop</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="product.css">
+</head>
+<body>
+
+  <!-- Color Picker -->
+  <div class="color-picker">
+    <label for="textColor">Text Color:</label>
+    <input type="color" id="textColor" value="#000000">
+    <button onclick="applyColor()">Apply Color</button>
+  </div>
+
+  <!-- Header Section -->
+  <header class="header" id="header">
+    <div class="logo" contenteditable="true">CricketPro</div>
+    <nav class="navbar">
+      <a href="index.html" contenteditable="true">Home</a>
+      <a href="product.html" contenteditable="true">Products</a>
+      <a href="category.html" contenteditable="true">Categories</a>
+      <a href="contact.html" contenteditable="true">Contact</a>
+      <a href="cart.html" contenteditable="true">Cart</a>
+    </nav>
+    <button class="remove-btn" onclick="removeComponent('header')">❌</button>
+  </header>
+
+  <!-- Products Section -->
+  <section class="products-page">
+    <h1 contenteditable="true">Our Products</h1>
+    <div class="products-grid">
+      <div class="product-card" id="product-card">
+        <img src="https://www.ceat.com/content/dam/ceat/product-images/cricket/bat/ceat-marvel-ew/front.png" alt="Cricket Bat" onclick="openSlider('product1')">
+        <h3 contenteditable="true">CEAT MARVEL ENGLISH WILLOW BAT</h3>
+        <p contenteditable="true">₹9,390<br/><br/>One of the world's finest grade English willow<br/><br/>
+            Grade 4A Finest english willow hard pressed & traditionally shaped for superb strokes.</p>
+        <button class="btn add-to-cart" data-name="CEAT MARVEL ENGLISH WILLOW BAT" data-price="9390" data-image="https://www.ceat.com/content/dam/ceat/product-images/cricket/bat/ceat-marvel-ew/front.png">Add to Cart</button>
+        <button class="remove-btn" onclick="removeComponent('product-card')">❌</button>
+      </div>
+      <div class="product-card" id="product-card1">
+        <img src="https://m.media-amazon.com/images/I/71K9p0st-ZL._SX569_.jpg" alt="Cricket Ball" onclick="openSlider('product2')">
+        <h3 contenteditable="true">SG Shield 20 Two-Piece Water Proof Cricket Leather Ball, Regular Size (Red)</h3>
+        <p contenteditable="true">₹500<br/><br/>Brand:SG<br/>Material:Leather<br/>Colour:multicolour<br/>Age Range:adult & youth<br/>Item Weight:196 Grams</p>
+        <button class="btn add-to-cart" data-name="SG Shield 20 Two-Piece Water Proof Cricket Leather Ball, Regular Size (Red)" data-price="500" data-image="https://m.media-amazon.com/images/I/71K9p0st-ZL._SX569_.jpg">Add to Cart</button>
+        <button class="remove-btn" onclick="removeComponent('product-card1')">❌</button>
+      </div>
+      <div class="product-card" id="product-card2">
+        <img src="https://crickstore.com/cdn/shop/files/img_20200415_184859_1_clipped_rev_1_p.png?v=1724672286&width=516" alt="Gloves" onclick="openSlider('product3')">
+        <h3 contenteditable="true">SS Super Test All White Cricket Batting Gloves</h3>
+        <p contenteditable="true">₹2,700<br/><br/>Type:Right Handed</p>
+        <button class="btn add-to-cart" data-name="SS Super Test All White Cricket Batting Gloves" data-price="2700" data-image="https://crickstore.com/cdn/shop/files/img_20200415_184859_1_clipped_rev_1_p.png?v=1724672286&width=516">Add to Cart</button>
+        <button class="remove-btn" onclick="removeComponent('product-card2')">❌</button>
+      </div>
+      <div class="product-card" id="product-card3">
+        <img src="https://m.media-amazon.com/images/I/71TFJ1up9FL._SX569_.jpg" alt="Kit" onclick="openSlider('product4')">
+        <h3 contenteditable="true">DSC Economy Kashmir Willow Cricket Kit, Size-6, Right Hand</h3>
+        <p contenteditable="true">₹7,000<br/><br/>One Cricket Bat Made with Best Quality Kashmir Willow<br/><br/>
+          1 Pair Batting Pad Atmos With Traditional Cane Construction for maximum shock absorption<br/><br/>
+          1 thigh Pad that made from high quality PVC material<br/><br/>
+          1 Pair Batting Gloves Atmos with pre-cuved filled finger rolls for protection flexibility and comfort<br/><br/>
+          1 Abdominal Guard that made with Traditionally shaped padded guard</p>
+        <button class="btn add-to-cart" data-name="DSC Economy Kashmir Willow Cricket Kit, Size-6, Left Hand" data-price="7000" data-image="https://m.media-amazon.com/images/I/71TFJ1up9FL._SX569_.jpg">Add to Cart</button>
+        <button class="remove-btn" onclick="removeComponent('product-card3')">❌</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer" id="footer">
+    <p contenteditable="true">© 2024 CricketPro. All rights reserved.</p>
+    <button class="remove-btn" onclick="removeComponent('footer')">❌</button>
+  </footer>
+  <!-- Save Button (Hidden Initially) -->
+  <button id="saveChanges" onclick="saveContent()" >
+    Save
+</button>
+<button id="undoButton" onclick="undoRemove()" >
+    Undo
+</button>
+<a href="cart.html">
+  Edit next page
+</button>
+
+
+  <!-- Image Slider Modal -->
+  <div id="image-slider-modal" class="modal">
+    <span class="close" onclick="closeSlider()">&times;</span>
+    <div class="slider-content">
+      <img id="slider-image" src="" alt="Product Image">
+    </div>
+    <div class="slider-buttons">
+      <button onclick="prevImage()">&#10094;</button>
+      <button onclick="nextImage()">&#10095;</button>
+    </div>
+  </div>
+
+
+  <script>
+
+    // JavaScript for color picker
+  function applyColor() {
+    const colorPicker = document.getElementById("textColor");
+    const selectedColor = colorPicker.value;
+
+    const selection = window.getSelection();
+    if (!selection.rangeCount) {
+        alert("Please select text to change its color.");
+        return;
+    }
+
+    const range = selection.getRangeAt(0);
+    if (range.collapsed) {
+        alert("Please select text to change its color.");
+        return;
+    }
+
+    // Create a span to wrap the selected text
+    const span = document.createElement("span");
+    span.style.color = selectedColor;
+    span.appendChild(range.extractContents());
+
+    // Replace the selected text with the colored span
+    range.insertNode(span);
+    selection.removeAllRanges(); // Deselect text after applying color
+}
+
+
+    let removedComponents = []; // Stack to store removed components
+  
+    // Save content and removed components
+    function saveContent() {
+      const elements = document.querySelectorAll("[contenteditable=true]");
+      let contentData = [];
+  
+      // Collect all editable content
+      elements.forEach(element => {
+        contentData.push({
+          section: element.getAttribute("data-section"),
+          content: element.innerHTML
+        });
+      });
+  
+      // Send data to the backend
+      fetch("save_content.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: contentData,
+          removed: removedComponents.map(comp => comp.id) // Send removed component IDs
+        })
+      })
+      .then(response => response.text())
+      .then(data => {
+        alert("Changes saved successfully!");
+        document.getElementById("saveChanges").style.display = "none";
+      })
+      .catch(error => console.error("Error:", error));
+    }
+  
+    // Load saved content and removed components on page load
+    window.onload = function () {
+      fetch("load_content.php")
+        .then(response => response.json())
+        .then(data => {
+          // Apply saved content to editable elements
+          data.content.forEach(item => {
+            let element = document.querySelector(`[data-section='${item.section}']`);
+            if (element) {
+              element.innerHTML = item.content;
+            }
+          });
+  
+          // Hide or remove components that were previously removed
+          data.removed.forEach(sectionId => {
+            let element = document.getElementById(sectionId);
+            if (element) {
+              element.remove();
+            }
+          });
+        })
+        .catch(error => console.error("Error loading content:", error));
+    };
+  
+    // Remove a component
+    function removeComponent(id) {
+      let element = document.getElementById(id);
+      if (element) {
+        let parentElement = element.parentElement;
+        let nextSibling = element.nextElementSibling;
+  
+        // Store removed component details
+        removedComponents.push({
+          id: id,
+          content: element.outerHTML,
+          parent: parentElement,
+          nextSibling: nextSibling
+        });
+  
+        // Remove the element from the DOM
+        element.remove();
+        showUndoButton();
+      }
+    }
+  
+    // Undo removal of a component
+    function undoRemove() {
+      if (removedComponents.length > 0) {
+        let lastRemoved = removedComponents.pop();
+        let tempDiv = document.createElement("div");
+        tempDiv.innerHTML = lastRemoved.content;
+        let restoredElement = tempDiv.firstElementChild;
+  
+        if (lastRemoved.parent) {
+          if (lastRemoved.nextSibling) {
+            lastRemoved.parent.insertBefore(restoredElement, lastRemoved.nextSibling);
+          } else {
+            lastRemoved.parent.appendChild(restoredElement);
+          }
+        } else {
+          console.error("Parent element not found, appending to body.");
+          document.body.appendChild(restoredElement);
+        }
+  
+        showUndoButton();
+      }
+    }
+  
+    // Show/hide the Undo button
+    function showUndoButton() {
+      let undoButton = document.getElementById("undoButton");
+      undoButton.style.display = removedComponents.length > 0 ? "block" : "none";
+    }
+  
+    // Listen for input events on editable elements
+    document.addEventListener("input", function (event) {
+      if (event.target.hasAttribute("contenteditable")) {
+        document.getElementById("saveChanges").style.display = "block";
+      }
+    });
+  </script>
+
+  <script src="product.js"></script>
+</body>
+</html>
